@@ -11,16 +11,15 @@ def registerView(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = User.objects.create_user(
+                full_name=form.cleaned_data['full_name'],
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
                 password=form.cleaned_data['password'],
             )
-            user.first_name = form.cleaned_data['full_name']
             user.save()
-
             login(request, user)
             messages.success(request, 'Вы успешно зарегистрировались!')
-            return redirect('main:index')
+            return redirect('users:profile')
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
