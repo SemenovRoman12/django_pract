@@ -1,0 +1,24 @@
+{% extends 'layout/layout.html' %}
+
+{% load bootstrap5 %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column align-items-center">
+        <h3 class="display-5 mb-4">Регистрация</h3>
+        <form
+                class="d-flex flex-column align-items-start"
+                action="{% url 'users:register' %}"
+                method="post"
+        >
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="align-self-center">
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary ">Submit</button>
+                {% endbuttons %}
+            </div>
+        </form>
+    </div>
+{% endblock %}

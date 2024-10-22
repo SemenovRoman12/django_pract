@@ -1,0 +1,19 @@
+{% extends 'layout/layout.html' %}
+
+{% load bootstrap5 %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column align-items-center">
+        <h3 class="display-5 mb-4">Вход</h3>
+        <form class="d-flex flex-column align-items-center" action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+    </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% bootstrap_css %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header class="bg-light py-3 border-bottom">
+        <div class="container text-center">
+            <a class="display-4 text-decoration-none text-reset" href="{% url 'main:index' %}">Design</a>
+        </div>
+    </header>
+
+    <main class="flex-fill py-5">
+        <div class="container">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 Design Studio</p>
+        </div>
+    </footer>
+    {% bootstrap_javascript %}
+</body>
+</html>
