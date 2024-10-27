@@ -1,0 +1,15 @@
+{% extends 'layout/layout.html' %}
+{% load bootstrap5 %}
+
+{% block title %}Создание заявки{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h3 class="display-5 mb-4">Создание заявки</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary">Создать заявку</button>
+        </form>
+    </div>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login, get_user_model
 
 from .forms import RegistrationForm
+from main.models import DesignRequest
 
 User = get_user_model()
 def registerView(request):
@@ -26,4 +27,5 @@ def registerView(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    user_requests = DesignRequest.objects.filter(user=request.user)
+    return render(request, 'users/profile.html', {'user_requests': user_requests})

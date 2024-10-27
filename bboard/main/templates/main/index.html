@@ -3,14 +3,29 @@
 {% block title %} Главная {% endblock %}
 
 {% block content %}
+    <h2 class="mb-4">Мои заявки</h2>
+
     {% if user.is_authenticated %}
-        <a href="{% url 'users:profile' %}">Личный кабинет</a>
-        <a href="{% url 'users:logout' %}">Выйти</a>
-        {% if user.is_superuser %}
-            <a href="{% url 'admin:index' %}">Админка</a>
-        {% endif %}
+        <div class="list-group">
+            {% for request in user.requests.all %}
+                <div class="list-group-item mb-3">
+                    <h3 class="mb-1">{{ request.title }}</h3>
+                    <p class="mb-1">{{ request.description }}</p>
+                    <p class="mb-1"><strong>Категория:</strong> {{ request.category }}</p>
+                    <p class="mb-1"><strong>Статус:</strong> {{ request.get_status_display }}</p>
+                    <p class="text-muted">Дата создания: {{ request.created_at }}</p>
+
+                    {% if request.image %}
+                        <div class="mt-3">
+                            <img src="{{ request.image.url }}" alt="{{ request.title }}" class="img-fluid" style="max-height: 200px; width: auto;">
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>У вас нет заявок.</p>
+            {% endfor %}
+        </div>
     {% else %}
-        <a href="{% url 'users:login' %}">Войти</a>
-        <a href="{% url 'users:register' %}">Регистрация</a>
+        <p>Для просмотра заявок необходимо <a href="{% url 'users:login' %}">войти в систему</a>.</p>
     {% endif %}
 {% endblock %}
