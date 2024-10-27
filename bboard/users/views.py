@@ -27,5 +27,13 @@ def registerView(request):
 
 @login_required
 def profile(request):
-    user_requests = DesignRequest.objects.filter(user=request.user)
-    return render(request, 'users/profile.html', {'user_requests': user_requests})
+    status_filter = request.GET.get('status', 'all')
+    if status_filter == 'all':
+        user_requests = DesignRequest.objects.filter(user=request.user)
+    else:
+        user_requests = DesignRequest.objects.filter(user=request.user, status=status_filter)
+
+    return render(request, 'users/profile.html', {
+        'user_requests': user_requests,
+        'status_filter': status_filter,
+    })

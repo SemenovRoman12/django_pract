@@ -1,0 +1,29 @@
+{% extends 'layout/layout.html' %}
+{% load bootstrap5 %}
+
+{% block title %}Управление категориями{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="display-5 mb-4">Управление категориями</h3>
+
+    <form method="post" action="{% url 'main:add_category' %}">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Название категории" required>
+            <button class="btn btn-primary" type="submit">Добавить категорию</button>
+        </div>
+    </form>
+
+    <ul class="list-group">
+        {% for category in categories %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ category.name }}
+                <a href="{% url 'main:delete_category' category.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-center">Категории отсутствуют</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

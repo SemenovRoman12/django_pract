@@ -8,20 +8,25 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="bg-light py-3 border-bottom">
-        <div class="container text-center">
-            <a class="display-4 text-decoration-none text-reset" href="{% url 'main:index' %}">Design</a>
-            <nav class="mt-3">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'users:profile' %}">Личный кабинет</a>
-                    <a href="{% url 'users:logout' %}">Выйти</a>
-                    {% if user.is_superuser %}
-                        <a href="{% url 'admin:index' %}">Админка</a>
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a class="navbar-brand display-4 text-decoration-none text-reset" href="{% url 'main:index' %}">Design.pro</a>
+                <nav>
+                    {% if user.is_authenticated %}
+                        <div class="d-flex gap-3 align-items-center">
+                            <a href="{% url 'users:profile' %}" class="btn btn-outline-secondary">Личный кабинет</a>
+                            <a href="{% url 'users:logout' %}" class="btn btn-outline-secondary">Выйти</a>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary">Админка</a>
+                                <a href="{% url 'main:manage_categories' %}" class="btn btn-outline-primary">Управление категориями</a>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <a href="{% url 'users:login' %}" class="btn btn-outline-primary">Войти</a>
+                        <a href="{% url 'users:register' %}" class="btn btn-primary">Регистрация</a>
                     {% endif %}
-                {% else %}
-                    <a href="{% url 'users:login' %}">Войти</a>
-                    <a href="{% url 'users:register' %}">Регистрация</a>
-                {% endif %}
-            </nav>
+                </nav>
+            </div>
         </div>
     </header>
 

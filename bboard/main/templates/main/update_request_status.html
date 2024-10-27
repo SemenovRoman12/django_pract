@@ -1,0 +1,17 @@
+{% extends 'layout/layout.html' %}
+{% load bootstrap5 %}
+
+{% block title %}Изменить статус заявки: {{ design_request.pk }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="display-5 mb-4">Изменить статус заявки: {{ design_request.pk }}</h3>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+    <a href="{% url 'users:profile' %}" class="btn btn-secondary mt-3">Назад</a>
+</div>
+{% endblock %}
