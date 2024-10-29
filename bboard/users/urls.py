@@ -7,4 +7,5 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', registerView, name='register'),
     path('profile/', profile, name='profile'),
+    path('profile/update_avatar', update)
 ]

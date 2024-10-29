@@ -1,5 +1,5 @@
 {% extends 'layout/layout.html' %}
-{% load bootstrap5 %}
+{% load bootstrap4 %}
 
 {% block title %}Профиль{% endblock %}
 
@@ -7,14 +7,38 @@
     <div class="container mt-5">
         <h3 class="display-5 mb-4">Профиль</h3>
 
+        <!-- Отображение аватара и информации о пользователе -->
         <div class="card mb-4">
-            <div class="card-body">
-                <p><strong>Логин:</strong> {{ user.get_username }}</p>
-                <p><strong>Email:</strong> {{ user.email }}</p>
-                <p><strong>ФИО:</strong> {{ user.full_name }}</p>
+            <div class="card-body d-flex align-items-center">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="Аватар" class="rounded-circle me-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                    <p class="me-3">Аватар отсутствует</p>
+                {% endif %}
+                <div>
+                    <p><strong>Логин:</strong> {{ user.get_username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>ФИО:</strong> {{ user.full_name }}</p>
+                </div>
             </div>
         </div>
 
+        <!-- Форма для смены аватара -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Сменить аватар</h5>
+                <form method="post" enctype="multipart/form-data" action="{% url 'users:update_avatar' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Выберите новый аватар:</label>
+                        <input type="file" name="avatar" id="avatar" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сменить аватар</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Кнопка для создания новой заявки -->
         <div class="mb-4">
             <a href="{% url 'main:create_request' %}" class="btn btn-success">Создать новую заявку</a>
         </div>
@@ -25,14 +49,16 @@
             <ul class="list-group">
                 {% for request in user.requests.all %}
                     <li class="list-group-item mb-3">
-                        <h3 class="mb-1">{{ request.title }}</h3>
+                        <h5 class="mb-1">{{ request.title }}</h5>
                         <p class="mb-1">{{ request.description }}</p>
                         <p class="mb-1"><strong>Категория:</strong> {{ request.category }}</p>
                         <p class="mb-1"><strong>Статус:</strong> {{ request.get_status_display }}</p>
                         <p class="text-muted">Дата создания: {{ request.created_at }}</p>
+
                         <div class="mt-3">
                             {% if request.status == 'new' %}
                                 <a href="{% url 'main:delete_request' request.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                                <a href="{% url 'main:update_request_status' request.pk %}" class="btn btn-warning btn-sm">Изменить статус</a>
                             {% endif %}
                         </div>
                     </li>

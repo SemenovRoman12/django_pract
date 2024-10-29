@@ -1,22 +1,18 @@
+
 {% extends 'layout/layout.html' %}
+{% load bootstrap4 %}
 
-{% load bootstrap5 %}
-
-{% block title %} Главная {% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-column align-items-center">
+    <div class="container mt-5">
         <h3 class="display-5 mb-4">Регистрация</h3>
-        <form
-                class="d-flex flex-column align-items-start"
-                action="{% url 'users:register' %}"
-                method="post"
-        >
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
             <div class="align-self-center">
                 {% buttons %}
-                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 {% endbuttons %}
             </div>
         </form>
