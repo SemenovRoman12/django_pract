@@ -7,7 +7,6 @@
     <div class="container mt-5">
         <h3 class="display-5 mb-4">Профиль</h3>
 
-        <!-- Отображение аватара и информации о пользователе -->
         <div class="card mb-4">
             <div class="card-body d-flex align-items-center">
                 {% if user.avatar %}
@@ -23,7 +22,6 @@
             </div>
         </div>
 
-        <!-- Форма для смены аватара -->
         <div class="card mb-4">
             <div class="card-body">
                 <h5>Сменить аватар</h5>
@@ -38,7 +36,6 @@
             </div>
         </div>
 
-        <!-- Кнопка для создания новой заявки -->
         <div class="mb-4">
             <a href="{% url 'main:create_request' %}" class="btn btn-success">Создать новую заявку</a>
         </div>
@@ -58,7 +55,6 @@
                         <div class="mt-3">
                             {% if request.status == 'new' %}
                                 <a href="{% url 'main:delete_request' request.pk %}" class="btn btn-danger btn-sm">Удалить</a>
-                                <a href="{% url 'main:update_request_status' request.pk %}" class="btn btn-warning btn-sm">Изменить статус</a>
                             {% endif %}
                         </div>
                     </li>

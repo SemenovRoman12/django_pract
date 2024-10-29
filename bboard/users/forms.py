@@ -1,21 +1,26 @@
-from django.core.exceptions import ValidationError
-import re
-from django import forms
-from .models import User
-from django.core.exceptions import ValidationError
-import re
-from .models import User
-
-
-from django import forms
-from django.core.exceptions import ValidationError
-from .models import User
-
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import User
 
 class RegistrationForm(forms.ModelForm):
+    full_name = forms.CharField(
+        label='ФИО',
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+    username = forms.CharField(
+        label='Логин',
+        max_length=30,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    )
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+    password = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
     password_confirm = forms.CharField(
         label='Повтор пароля',
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -24,6 +29,9 @@ class RegistrationForm(forms.ModelForm):
         label='Аватар',
         required=False,
         widget=forms.FileInput(attrs={'class': 'form-control'}),
+    )
+    consent = forms.BooleanField(
+        label='Согласие на обработку персональных данных',
     )
 
     def clean_username(self):
@@ -41,13 +49,13 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data.get('avatar')
-        if avatar and avatar.size > 3 * 1024 * 1024:  # Проверка на 3 МБ
+        if avatar and avatar.size > 3 * 1024 * 1024:
             raise ValidationError("Размер файла аватара не должен превышать 3 МБ.")
         return avatar
 
     class Meta:
         model = User
-        fields = ['full_name', 'username', 'email', 'password', 'avatar']
+        fields = ['full_name', 'username', 'email', 'avatar', 'password']
         widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }

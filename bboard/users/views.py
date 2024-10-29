@@ -16,21 +16,18 @@ from django.contrib import messages
 from .forms import RegistrationForm
 from .models import User
 
-
 User = get_user_model()
-
-
 
 def registerView(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.FILES)  # Добавляем request.FILES
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = User.objects.create_user(
                 full_name=form.cleaned_data['full_name'],
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
+                avatar=form.cleaned_data['avatar'],
                 password=form.cleaned_data['password'],
-                avatar=form.cleaned_data.get('avatar')  # Сохраняем аватар
             )
             user.save()
             login(request, user)
@@ -56,3 +53,18 @@ def profile(request):
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'users/profile.html', {'form': form})
+
+
+@login_required
+def update_avatar(request):
+    if request.method == 'POST' and request.FILES.get('avatar'):
+        avatar = request.FILES['avatar']
+        if avatar.size > 3 * 1024 * 1024:
+            messages.error(request, "Размер файла не должен превышать 3 МБ.")
+        else:
+            request.user.avatar = avatar
+            request.user.save()
+            messages.success(request, "Аватар успешно обновлен.")
+        return redirect('users:profile')
+    messages.error(request, "Не удалось загрузить аватар.")
+    return redirect('users:profile')
