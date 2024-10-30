@@ -1,5 +1,5 @@
 {% extends 'layout/layout.html' %}
-{% load bootstrap5 %}
+{% load bootstrap4 %}
 
 {% block title %}Профиль{% endblock %}
 
@@ -51,7 +51,6 @@
                         <div class="mt-3">
                             {% if request.status == 'new' %}
                                 <a href="{% url 'main:delete_request' request.pk %}" class="btn btn-danger btn-sm">Удалить</a>
-                                <a href="{% url 'main:update_request_status' request.pk %}" class="btn btn-warning btn-sm">Изменить статус</a>
                             {% endif %}
                         </div>
                     </li>
