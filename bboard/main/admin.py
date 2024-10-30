@@ -43,8 +43,4 @@ class DesignRequestAdmin(admin.ModelAdmin):
         js = ('main/admin_design_request.js',)
 
     def save_model(self, request, obj, form, change):
-        if change and obj.status in ["in_progress", "completed"]:
-            if 'status' in form.changed_data:
-                raise ValidationError("Нельзя изменить статус после того, как заявка принята в работу или завершена.")
-
         super().save_model(request, obj, form, change)
